@@ -10,7 +10,7 @@ package exceptions;
  * @author udesc
  */
 public class NegativeValueEnteredException extends InputException{
-    private static final String NEGATIVE_EXCEPTION = "Zero não possui fatorial";
+    private static final String NEGATIVE_EXCEPTION = "Número negativo não possui fatorial";
     /**
      * 
      * @param msg 

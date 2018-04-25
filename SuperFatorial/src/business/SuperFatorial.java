@@ -18,18 +18,18 @@ public class SuperFatorial implements ISuperFatorial{
 
     @Override
     public BigInteger getSuperFatorial(int numero) throws InputException{
-        if( numero == 0 ) 
+        if( numero == 0 ){
             throw new ZeroEnteredException();
-        else if( numero < 0 ) 
-            throw new NegativeValueEnteredException();
+        } else if( numero < 0 ){
+            throw new NegativeValueEnteredException();  
+        } 
         else{
-            for(int i=0; i<=numero; i++){
-                BigInteger resultado = null;
-                resultado.equals(i);
+            BigInteger resultado = BigInteger.ONE;
+            for(int i = numero; i > 0; i--){
+                resultado = resultado.multiply(BigInteger.valueOf(i));
             }
+            return resultado;
         }
-
-        return null;
     }
     
     protected BigInteger getFatoria( int numero ) {

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package business;
+import exceptions.InputException;
 import java.math.BigInteger;
 import java.util.HashMap;
 
@@ -12,10 +13,26 @@ import java.util.HashMap;
  * @author udesc
  */
 public class SuperFatorialCached extends SuperFatorial{
-    private HashMap<Integer,BigInteger> cache = new HashMap();
-    protected BigInteger getFatoria( int numero ) {
-        // procura no cache primeiro se existir retorna o valor
-        // se nao existir calcula e adiciona no cache
-        return null;
+    private static HashMap<Integer,BigInteger> cache = new HashMap();
+
+    /**
+     *
+     * @param numero
+     * @return
+     * @throws exceptions.InputException
+     */
+    protected BigInteger getFatorial( int numero ) throws InputException{
+        if(cache.containsKey(numero)){
+            return cache.get(numero);
+        }else{
+            for(int i=1; i<=numero;i++){
+                cache.put(numero, super.getSuperFatorial(i));
+            }
+            return cache.get(numero);
+        }
+    }
+
+    public HashMap<Integer, BigInteger> getCache() {
+        return cache;
     }
 }

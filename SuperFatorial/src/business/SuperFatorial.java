@@ -24,15 +24,13 @@ public class SuperFatorial implements ISuperFatorial{
             throw new NegativeValueEnteredException();  
         } 
         else{
-            BigInteger resultado = BigInteger.ONE;
-            for(int i = numero; i > 0; i--){
-                resultado = resultado.multiply(BigInteger.valueOf(i));
+            BigInteger fatorial = BigInteger.ONE;
+            BigInteger superFatorial = BigInteger.ONE;
+            for(int i = 1; i <= numero; i++){
+                fatorial = fatorial.multiply(BigInteger.valueOf(i));
+                superFatorial = superFatorial.multiply(fatorial);
             }
-            return resultado;
+            return superFatorial;
         }
-    }
-    
-    protected BigInteger getFatoria( int numero ) {
-        return null;
     }
 }

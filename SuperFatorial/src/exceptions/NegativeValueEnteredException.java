@@ -11,9 +11,9 @@ package exceptions;
  */
 public class NegativeValueEnteredException extends InputException{
     private static final String NEGATIVE_EXCEPTION = "Número negativo não possui fatorial";
+    
     /**
      * 
-     * @param msg 
      */
     public NegativeValueEnteredException() {
         super(NEGATIVE_EXCEPTION);

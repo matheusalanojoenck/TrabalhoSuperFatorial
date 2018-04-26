@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author udesc
  */
 public class SuperFatorialCached extends SuperFatorial{
-    private static HashMap<Integer,BigInteger> cache = new HashMap();
+    private static final HashMap<Integer,BigInteger> cache = new HashMap();
 
     /**
      *
@@ -21,12 +21,12 @@ public class SuperFatorialCached extends SuperFatorial{
      * @return
      * @throws exceptions.InputException
      */
-    protected BigInteger getFatorial( int numero ) throws InputException{
+    public BigInteger getFatorial( int numero ) throws InputException{
         if(cache.containsKey(numero)){
             return cache.get(numero);
         }else{
-            for(int i=1; i<=numero;i++){
-                cache.put(numero, super.getSuperFatorial(i));
+            for(int i=cache.size()+1; i<=numero;i++){
+                cache.put(i, super.getSuperFatorial(i));
             }
             return cache.get(numero);
         }

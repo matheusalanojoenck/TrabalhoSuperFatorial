@@ -16,28 +16,25 @@ import javax.swing.table.DefaultTableModel;
  * @author matheus
  */
 public class Resultado extends javax.swing.JFrame {
-
+    SuperFatorialCached superFatorial = new SuperFatorialCached();
+    
     /**
      * Creates new form Resultado
      * @param numero
+     * @throws exceptions.InputException
      */
     public Resultado(String numero) throws InputException{
         initComponents();
         int valor = Integer.parseInt(numero);
-        SuperFatorialCached superFatorial = new SuperFatorialCached();
-        superFatorial.getSuperFatorial(valor);
+        superFatorial.getFatorial(valor);
         setTabelaResultados(superFatorial.getCache());
-        System.out.println("done");
     }
 
     private static void setTabelaResultados(HashMap<Integer,BigInteger> cache) {
         DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
-        System.out.println("cache.size=" + cache.size());
         for(int aux : cache.keySet()){
             model.addRow(new Object[]{aux, cache.get(aux).toString()});
-            System.out.println("check-point");
         }
-        
     }
     
     

@@ -6,8 +6,7 @@
 package superfatorial;
 
 import exceptions.InputException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -86,10 +85,9 @@ public class AppSuperFatorial extends javax.swing.JFrame {
     private void botaoCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCalcularActionPerformed
         try {
             new Resultado(campoValor.getText()).setVisible(true);
+            this.setVisible(false);
         } catch (InputException ex) {
-            Logger.getLogger(AppSuperFatorial.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setVisible(false);
     }//GEN-LAST:event_botaoCalcularActionPerformed
 
 

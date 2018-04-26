@@ -5,6 +5,7 @@
  */
 package business;
 
+import exceptions.InputException;
 import java.math.BigInteger;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,26 +26,34 @@ public class SuperFatorialCachedTest {
     }
     
     @Test
-    public void testGetFatorialNEGATIVO() throws Exception {
+    public void testGetFatorialNEGATIVO() throws InputException {
+        try {
+            assertEquals(null, superFatorial.getFatorial(-1));
+        } catch (InputException e) {
+        }
     }
     
     @Test
-    public void testGetFatorialZERO() throws Exception {
+    public void testGetFatorialZERO() throws InputException {
+        try {
+            assertEquals(null, superFatorial.getFatorial(0));
+        } catch (InputException e) {
+        }
     }
 
     @Test
-    public void testGetFatorialUM() throws Exception {
+    public void testGetFatorialUM() throws InputException {
         assertEquals(BigInteger.valueOf(1), superFatorial.getFatorial(1));
     }
     
     @Test
-    public void testGetFatorialDEZ() throws Exception {
+    public void testGetFatorialDEZ() throws InputException {
         bigInt = new BigInteger(superFatorial.getFatorial(10).toString());
         assertEquals(bigInt, superFatorial.getFatorial(10));
     }
     
     @Test
-    public void testGetFatorialTRINTA() throws Exception {
+    public void testGetFatorialTRINTA() throws InputException {
         bigInt = new BigInteger(superFatorial.getFatorial(30).toString());
         assertEquals(bigInt, superFatorial.getFatorial(30));
     }

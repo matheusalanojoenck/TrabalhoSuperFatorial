@@ -7,24 +7,31 @@ package business;
 import exceptions.InputException;
 import exceptions.NegativeValueEnteredException;
 import exceptions.ZeroEnteredException;
+import java.io.File;
 import java.math.BigInteger;
+import java.nio.channels.FileChannel;
 
 /**
  * Antes de calcular o fatorial busca no cache
  * @author udesc
  */
-public class SuperFatorialDiscCached extends SuperFatorial{
+public class SuperFatorialDiskCached extends SuperFatorial{
     
     /**
      * Controla o cache em disco
      */
     class DiskCache {
+        File arqCache = new File("SuperFatorialDiskCached.txt");
+        FileChannel channelCache;
         
         public DiskCache() {
             init();
         }
         
         public void init() {
+            if(!arqCache.exists()){
+                
+            }
             
         }
         
@@ -55,7 +62,8 @@ public class SuperFatorialDiscCached extends SuperFatorial{
      */
     public BigInteger getFatorial( int numero ) throws InputException{
         if( numero == 0 ){
-            throw new ZeroEnteredException();
+            cache.store(0, BigInteger.ONE);
+            return BigInteger.ONE;
         } else if( numero < 0 ){
             throw new NegativeValueEnteredException();  
         } else if(cache.containsKey(numero)){

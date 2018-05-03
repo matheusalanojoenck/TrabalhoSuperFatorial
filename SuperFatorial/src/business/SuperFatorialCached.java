@@ -25,7 +25,8 @@ public class SuperFatorialCached extends SuperFatorial{
      */
     public BigInteger getFatorial( int numero ) throws InputException{
         if( numero == 0 ){
-            throw new ZeroEnteredException();
+            cache.put(0, BigInteger.ONE);
+            return BigInteger.ONE;
         } else if( numero < 0 ){
             throw new NegativeValueEnteredException();  
         } else if(cache.containsKey(numero)){

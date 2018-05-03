@@ -25,19 +25,27 @@ public class Resultado extends javax.swing.JFrame {
      */
     public Resultado(String numero) throws InputException{
         initComponents();
+        
         int valor = Integer.parseInt(numero);
-        superFatorial.getFatorial(valor);
+        this.setTextoResultado(superFatorial.getFatorial(valor).toString());
+        this.setLabelTitulo(numero);
         setTabelaResultados(superFatorial.getCache());
     }
 
-    private static void setTabelaResultados(HashMap<Integer,BigInteger> cache) {
-        DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
-        for(int aux : cache.keySet()){
-            model.addRow(new Object[]{aux, cache.get(aux).toString()});
-        }
+    private void setLabelTitulo(String labelTitulo) {
+        this.labelTitulo.setText("sf("+labelTitulo+")");
+    }
+
+    private void setTextoResultado(String textoResultado) {
+        this.textoResultado.setText(textoResultado);
     }
     
-    
+    private static void setTabelaResultados(HashMap<Integer,BigInteger> cache) {
+        DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
+        cache.keySet().forEach((aux) -> {
+            model.addRow(new Object[]{aux, cache.get(aux).toString()});
+        });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,16 +56,20 @@ public class Resultado extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        botaoVoltar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaResultados = new javax.swing.JTable();
+        labelTitulo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textoResultado = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Voltar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botaoVoltar.setText("Voltar");
+        botaoVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoVoltarActionPerformed(evt);
             }
         });
 
@@ -84,42 +96,78 @@ public class Resultado extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabelaResultados.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tabelaResultados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tabelaResultadosMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaResultados);
+
+        labelTitulo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelTitulo.setText("sf(x)");
+
+        textoResultado.setEditable(false);
+        textoResultado.setColumns(20);
+        textoResultado.setLineWrap(true);
+        textoResultado.setRows(5);
+        jScrollPane2.setViewportView(textoResultado);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Todos os Resultados");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(jButton1)
-                .addContainerGap(122, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addComponent(labelTitulo)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(botaoVoltar))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(labelTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botaoVoltar)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botaoVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVoltarActionPerformed
         this.dispose();
         MainSuperFatorial.menu.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botaoVoltarActionPerformed
+
+    private void tabelaResultadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaResultadosMouseReleased
+        String select = tabelaResultados.getModel().getValueAt(tabelaResultados.getSelectedRow(), 1).toString();
+        this.setTextoResultado(select);
+        this.setLabelTitulo((tabelaResultados.getModel().getValueAt(tabelaResultados.getSelectedRow(), 0).toString()));
+    }//GEN-LAST:event_tabelaResultadosMouseReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton botaoVoltar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelTitulo;
     private static javax.swing.JTable tabelaResultados;
+    private javax.swing.JTextArea textoResultado;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,8 +6,6 @@
 package business;
 
 import exceptions.InputException;
-import exceptions.NegativeValueEnteredException;
-import exceptions.ZeroEnteredException;
 import java.math.BigInteger;
 
 /**
@@ -15,22 +13,21 @@ import java.math.BigInteger;
  * @author udesc
  */
 public class SuperFatorial implements ISuperFatorial{
-
     @Override
     public BigInteger getSuperFatorial(int numero) throws InputException{
-        if( numero == 0 ){
-            throw new ZeroEnteredException();
-        } else if( numero < 0 ){
-            throw new NegativeValueEnteredException();  
-        } 
-        else{
-            BigInteger fatorial = BigInteger.ONE;
-            BigInteger superFatorial = BigInteger.ONE;
-            for(int i = 1; i <= numero; i++){
-                fatorial = fatorial.multiply(BigInteger.valueOf(i));
-                superFatorial = superFatorial.multiply(fatorial);
-            }
-            return superFatorial;
+        BigInteger superFatorial = BigInteger.ONE;
+        for(int i = 1; i <= numero; i++){
+            superFatorial = superFatorial.multiply(getFatoria(i));
         }
+        return superFatorial;
     }
+    
+    protected BigInteger getFatoria( int numero ){
+        BigInteger fatorial = BigInteger.ONE;
+        for(int i = 1; i <= numero; i++){
+            fatorial = fatorial.multiply(BigInteger.valueOf(i));       
+        }
+        return fatorial;
+    }
+
 }

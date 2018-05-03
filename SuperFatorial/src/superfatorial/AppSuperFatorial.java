@@ -6,7 +6,7 @@
 package superfatorial;
 
 import exceptions.InputException;
-
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -86,10 +86,12 @@ public class AppSuperFatorial extends javax.swing.JFrame {
         try {
             new Resultado(campoValor.getText()).setVisible(true);
             this.setVisible(false);
-        } catch (InputException ex) {
-        }
+        } catch (InputException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "Entrada Inválida", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }     
     }//GEN-LAST:event_botaoCalcularActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCalcular;

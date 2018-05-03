@@ -5,6 +5,8 @@
  */
 package business;
 import exceptions.InputException;
+import exceptions.NegativeValueEnteredException;
+import exceptions.ZeroEnteredException;
 import java.math.BigInteger;
 import java.util.HashMap;
 
@@ -22,7 +24,11 @@ public class SuperFatorialCached extends SuperFatorial{
      * @throws exceptions.InputException
      */
     public BigInteger getFatorial( int numero ) throws InputException{
-        if(cache.containsKey(numero)){
+        if( numero == 0 ){
+            throw new ZeroEnteredException();
+        } else if( numero < 0 ){
+            throw new NegativeValueEnteredException();  
+        } else if(cache.containsKey(numero)){
             return cache.get(numero);
         }else{
             for(int i=cache.size()+1; i<=numero;i++){

@@ -6,6 +6,7 @@
 package superfatorial;
 
 import business.SuperFatorialCached;
+import business.SuperFatorialDiskCached;
 import exceptions.InputException;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -16,21 +17,33 @@ import javax.swing.table.DefaultTableModel;
  * @author matheus
  */
 public class Resultado extends javax.swing.JFrame {
-    SuperFatorialCached superFatorial = new SuperFatorialCached();
-    
+    SuperFatorialCached superFatorial;
+    SuperFatorialDiskCached superFatorialDisk;
     /**
      * Creates new form Resultado
      * @param numero
+     * @param tipoArmz
      * @throws exceptions.InputException
      */
-    public Resultado(String numero) throws InputException{
+    public Resultado(String numero, String tipoArmz) throws InputException {
         initComponents();
-        
         int valor = Integer.parseInt(numero);
-        this.setTextoResultado(superFatorial.getFatorial(valor).toString());
         this.setLabelTitulo(numero);
-        setTabelaResultados(superFatorial.getCache());
+        
+        switch (tipoArmz){
+            case "cache":
+                superFatorial = new SuperFatorialCached();
+                this.setTextoResultado(superFatorial.getFatorialCache(valor).toString());
+                setTabelaResultadosCache(superFatorial.getCache());
+                break;
+            case "txt":
+                superFatorialDisk = new SuperFatorialDiskCached();
+                this.setTextoResultado(superFatorialDisk.getFatorialCache(valor).toString());
+                setTabelaResultadosDisk();
+                break;
+        }
     }
+
 
     private void setLabelTitulo(String labelTitulo) {
         this.labelTitulo.setText("sf("+labelTitulo+")");
@@ -40,11 +53,18 @@ public class Resultado extends javax.swing.JFrame {
         this.textoResultado.setText(textoResultado);
     }
     
-    private static void setTabelaResultados(HashMap<Integer,BigInteger> cache) {
+    private void setTabelaResultadosCache(HashMap<Integer,BigInteger> cache) {
         DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
         cache.keySet().forEach((aux) -> {
             model.addRow(new Object[]{aux, cache.get(aux).toString()});
         });
+    }
+    
+    private void setTabelaResultadosDisk(){
+//        DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
+//        for(int i=1; i<=superFatorialDisk.getCache().getSize(); i++){            
+//            model.addRow(new Object[]{i, superFatorialDisk.getCache().read(i)});
+//        }
     }
 
     /**

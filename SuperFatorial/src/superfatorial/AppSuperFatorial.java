@@ -30,10 +30,14 @@ public class AppSuperFatorial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupArmz = new javax.swing.ButtonGroup();
         labelTitulo = new javax.swing.JLabel();
         labelValor = new javax.swing.JLabel();
         campoValor = new javax.swing.JTextField();
         botaoCalcular = new javax.swing.JButton();
+        radioButtonCache = new javax.swing.JRadioButton();
+        radioButtonTxt = new javax.swing.JRadioButton();
+        labelArmz = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,19 +53,39 @@ public class AppSuperFatorial extends javax.swing.JFrame {
             }
         });
 
+        buttonGroupArmz.add(radioButtonCache);
+        radioButtonCache.setText("Memória Cache");
+
+        buttonGroupArmz.add(radioButtonTxt);
+        radioButtonTxt.setSelected(true);
+        radioButtonTxt.setText("Arquivo Externo");
+
+        labelArmz.setText("Forma de armazenamento:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(botaoCalcular)
-                    .addComponent(labelTitulo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelValor)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(botaoCalcular)
+                            .addComponent(labelTitulo)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelValor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelArmz))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(radioButtonCache))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(radioButtonTxt)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -73,7 +97,13 @@ public class AppSuperFatorial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelValor)
                     .addComponent(campoValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelArmz)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioButtonCache)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioButtonTxt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botaoCalcular)
                 .addContainerGap())
         );
@@ -83,20 +113,30 @@ public class AppSuperFatorial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCalcularActionPerformed
-        try {
-            new Resultado(campoValor.getText()).setVisible(true);
-            this.setVisible(false);
-        } catch (InputException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-        } catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(this, "Entrada Inválida", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }     
+
+            try {
+                if(radioButtonCache.isSelected()){
+                    new Resultado(campoValor.getText(), "cache").setVisible(true);
+                    this.setVisible(false);
+                }else if(radioButtonTxt.isSelected()){
+                    new Resultado(campoValor.getText(), "txt").setVisible(true);
+                    this.setVisible(false);
+                }  
+            } catch (InputException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(this, e.getMessage(), "ERRO entrada inválida", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_botaoCalcularActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCalcular;
+    private javax.swing.ButtonGroup buttonGroupArmz;
     private javax.swing.JTextField campoValor;
+    private javax.swing.JLabel labelArmz;
     private javax.swing.JLabel labelTitulo;
     private javax.swing.JLabel labelValor;
+    private javax.swing.JRadioButton radioButtonCache;
+    private javax.swing.JRadioButton radioButtonTxt;
     // End of variables declaration//GEN-END:variables
 }

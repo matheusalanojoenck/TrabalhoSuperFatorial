@@ -28,22 +28,19 @@ public class SuperFatorialCachedTest {
     @Test
     public void testGetFatorialNEGATIVO() throws InputException {
         try {
-            assertEquals(null, superFatorial.getFatorial(-1));
+            assertEquals(null, superFatorial.getFatorialCache(-1));
         } catch (InputException e) {
         }
     }
     
     @Test
     public void testGetFatorialZERO() throws InputException {
-        try {
-            assertEquals(null, superFatorial.getFatorial(0));
-        } catch (InputException e) {
-        }
+        assertEquals(BigInteger.ONE, superFatorial.getFatorial(0));
     }
 
     @Test
     public void testGetFatorialUM() throws InputException {
-        assertEquals(BigInteger.valueOf(1), superFatorial.getFatorial(1));
+        assertEquals(BigInteger.ONE, superFatorial.getFatorial(1));
     }
     
     @Test

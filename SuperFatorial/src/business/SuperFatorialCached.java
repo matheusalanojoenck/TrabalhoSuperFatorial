@@ -4,18 +4,16 @@
  * and open the template in the editor.
  */
 package business;
-import exceptions.InputException;
-import exceptions.NegativeValueEnteredException;
-import exceptions.ZeroEnteredException;
+import exceptions.*;
 import java.math.BigInteger;
 import java.util.HashMap;
 
 /**
- * Antes de calcular o fatorial busca no cache
+ * Antes de calcular o fatorial busca no CACHE
  * @author udesc
  */
 public class SuperFatorialCached extends SuperFatorial{
-    private static final HashMap<Integer,BigInteger> cache = new HashMap();
+    private static final HashMap<Integer,BigInteger> CACHE = new HashMap();
 
     /**
      *
@@ -23,23 +21,22 @@ public class SuperFatorialCached extends SuperFatorial{
      * @return
      * @throws exceptions.InputException
      */
-    public BigInteger getFatorial( int numero ) throws InputException{
-        if( numero == 0 ){
-            cache.put(0, BigInteger.ONE);
+    public BigInteger getFatorialCache( int numero ) throws InputException{
+        if(numero == 0) {
             return BigInteger.ONE;
-        } else if( numero < 0 ){
+        }else if( numero < 0 ){
             throw new NegativeValueEnteredException();  
-        } else if(cache.containsKey(numero)){
-            return cache.get(numero);
+        } else if(CACHE.containsKey(numero)){
+            return CACHE.get(numero);
         }else{
-            for(int i=cache.size()+1; i<=numero;i++){
-                cache.put(i, super.getSuperFatorial(i));
+            for(int i=CACHE.size()+1; i<=numero;i++){
+                CACHE.put(i, super.getSuperFatorial(i));
             }
-            return cache.get(numero);
+            return CACHE.get(numero);
         }
     }
 
     public HashMap<Integer, BigInteger> getCache() {
-        return cache;
+        return CACHE;
     }
 }

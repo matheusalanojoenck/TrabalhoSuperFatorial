@@ -5,13 +5,19 @@
  */
 package business;
 
+import exceptions.InputException;
+import java.io.IOException;
+
 /**
  *
  * @author udesc
  */
 public class TesteDiscCache {
-    public static void main(String[] args){
-        
+    private static SuperFatorialDiskCached superDisk;
+    public static void main(String[] args) throws InputException, IOException{
+        superDisk = new SuperFatorialDiskCached();
+        superDisk.getFatorial(5);
+        superDisk.getFatorial(7);
     }
     
 }

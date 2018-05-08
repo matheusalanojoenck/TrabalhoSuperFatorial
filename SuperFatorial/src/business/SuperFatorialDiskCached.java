@@ -4,53 +4,14 @@
  * and open the template in the editor.
  */
 package business;
-import exceptions.InputException;
-import exceptions.NegativeValueEnteredException;
-import exceptions.ZeroEnteredException;
-import java.io.File;
+import exceptions.*;
 import java.math.BigInteger;
-import java.nio.channels.FileChannel;
 
 /**
  * Antes de calcular o fatorial busca no cache
  * @author udesc
  */
 public class SuperFatorialDiskCached extends SuperFatorial{
-    
-    /**
-     * Controla o cache em disco
-     */
-    class DiskCache {
-        File arqCache = new File("SuperFatorialDiskCached.txt");
-        FileChannel channelCache;
-        
-        public DiskCache() {
-            init();
-        }
-        
-        public void init() {
-            if(!arqCache.exists()){
-                
-            }
-            
-        }
-        
-        public void store( int i, BigInteger value) {
-            
-        }
-        
-        public BigInteger read( int i ) {
-            return BigInteger.ONE;
-        }
-
-        private boolean containsKey(int numero) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        private int size() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    }
     
     private final DiskCache cache = new DiskCache();
 
@@ -60,20 +21,28 @@ public class SuperFatorialDiskCached extends SuperFatorial{
      * @return
      * @throws exceptions.InputException
      */
-    public BigInteger getFatorial( int numero ) throws InputException{
-        if( numero == 0 ){
-            cache.store(0, BigInteger.ONE);
+    public BigInteger getFatorialCache( int numero ) throws InputException{
+        if(numero == 0) {
             return BigInteger.ONE;
-        } else if( numero < 0 ){
+        }else if( numero < 0 ){
             throw new NegativeValueEnteredException();  
         } else if(cache.containsKey(numero)){
+            System.out.println("encontrou em contanisKey\n");
             return cache.read(numero);
         }else{
-            for(int i=cache.size()+1; i<=numero;i++){
+            for(int i=cache.getSize()+1; i<=numero;i++){
+                System.out.printf("adicionando sf(%d) ao txt%n",i);
                 cache.store(i, super.getSuperFatorial(i));
             }
             return cache.read(numero);
         }
     }
-
+    
+    /**
+     *
+     * @return
+     */
+    public DiskCache getCache(){
+        return cache;
+    }
 }

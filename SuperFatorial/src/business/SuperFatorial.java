@@ -13,16 +13,17 @@ import java.math.BigInteger;
  * @author udesc
  */
 public class SuperFatorial implements ISuperFatorial{
+    
     @Override
     public BigInteger getSuperFatorial(int numero) throws InputException{
         BigInteger superFatorial = BigInteger.ONE;
-        for(int i = 1; i <= numero; i++){
-            superFatorial = superFatorial.multiply(getFatoria(i));
-        }
-        return superFatorial;
+            for(int i = 1; i <= numero; i++){
+                superFatorial = superFatorial.multiply(getFatorial(i));
+            }
+            return superFatorial;   
     }
     
-    protected BigInteger getFatoria( int numero ){
+    protected BigInteger getFatorial( int numero ){
         BigInteger fatorial = BigInteger.ONE;
         for(int i = 1; i <= numero; i++){
             fatorial = fatorial.multiply(BigInteger.valueOf(i));       

@@ -40,6 +40,8 @@ public class AppSuperFatorial extends javax.swing.JFrame {
         labelArmz = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Calculadora Super Fatorial");
+        setAlwaysOnTop(true);
 
         labelTitulo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         labelTitulo.setText("Calculadora Super Fatorial");
@@ -113,7 +115,6 @@ public class AppSuperFatorial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCalcularActionPerformed
-
             try {
                 if(radioButtonCache.isSelected()){
                     new Resultado(campoValor.getText(), "cache").setVisible(true);

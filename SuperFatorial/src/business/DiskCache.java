@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,74 +22,73 @@ import javax.swing.JOptionPane;
  * @author matheus
  */
 public final class DiskCache {
-    private FileChannel fileChannel;
+    
+    private File arqCache;
     private final String fileName = "SuperFatorialDiskCached.txt";
 
-        public DiskCache() {
-            init();
+    public DiskCache() {
+        init();
+    }
+
+    public void init() {
+
+        arqCache = new File(fileName);
+        if(!arqCache.exists()){
+            try {
+                arqCache.createNewFile();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Falha ao criar o arquivo", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        
-        public void init() {
+    }
+
+    public void store( int i, BigInteger value) {
+        try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter(fileName, true))) {
+
+            String linha = i + "," + value;
+            buffWrite.append(linha);
+            buffWrite.newLine();
+            buffWrite.flush();
+            buffWrite.close();
+
+        }catch(IOException e){
+            System.out.println("falha store");
+        }
+    }
+
+    public BigInteger read(int numero) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            for(int i=1; i<numero; i++){
+                br.readLine();
+            }
             
-            File arqCache = new File(fileName);
-            if(!arqCache.exists()){
-                try {
-                    arqCache.createNewFile();
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Falha ao criar o arquivo", "ERRO", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-        
-        public void store( int i, BigInteger value) {
-            try (BufferedWriter buffWrite = new BufferedWriter(new FileWriter(fileName, true))) {
-                
-                String linha = i + " , " + value;
-                buffWrite.append(linha);
-                buffWrite.newLine();
-                buffWrite.flush();
-                buffWrite.close();
-                
-            }catch(IOException e){
-                System.out.println("falha store");
-            }
-        }
-        
-        public BigInteger read(int i) {
-//            Path path = Paths.get(fileName);
-//            try {
-//                fileChannel = FileChannel.open(path);
-//                fileChannel.position(i);
-//                fileChannel.close();
-//            } catch (IOException e) {
-//            }
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(fileName));
-                while(br.ready()){
-                    String[] splited = br.readLine().split(" ");
-                    if(splited[0].equals(Integer.toString(i))){
-                        System.out.printf("0: %s | 1: %s | 2: %s%n", splited[0],splited[1],splited[2]);
-                        return BigInteger.valueOf(Long.parseLong(splited[2]));
-                    }
-                }
-            } catch (IOException e) {
-                System.out.println("erro read");
-            }
-            return BigInteger.ONE;
-        }
+            String[] splited = (br.readLine().split(","));
+            return new BigInteger(splited[1]);  
 
-        public boolean containsKey(int numero) {
-            return numero <= getSize(); 
+        } catch (IOException e) {
+            System.out.println("erro read");
         }
+        return BigInteger.ONE;
+    }
 
-        public int getSize() {
-            Path path = Paths.get(fileName);
-            try {
-                long lineCount = Files.lines(path).count();
-                System.out.println("numero de linhas: "+lineCount);
-                return (int) lineCount;
-            } catch (IOException e) {
-            }
-            return -1;
-        }    
+    public boolean containsKey(int numero) {
+        return numero <= getSize(); 
+    }
+
+    public int getSize() {
+        Path path = Paths.get(fileName);
+        try {
+            long lineCount = Files.lines(path).count();
+            return (int) lineCount;
+        } catch (IOException e) {
+        }
+        return -1;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+        
+        
 }

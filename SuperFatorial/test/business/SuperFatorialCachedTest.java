@@ -28,8 +28,9 @@ public class SuperFatorialCachedTest {
     @Test
     public void testGetFatorialNEGATIVO() throws InputException {
         try {
-            assertEquals(null, superFatorial.getFatorialCache(-1));
+            bigInt = superFatorial.getFatorialCache(-1);
         } catch (InputException e) {
+            assertEquals("Número negativo não possui fatorial", e.getMessage());
         }
     }
     

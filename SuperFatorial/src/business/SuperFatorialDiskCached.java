@@ -27,11 +27,11 @@ public class SuperFatorialDiskCached extends SuperFatorial{
         }else if( numero < 0 ){
             throw new NegativeValueEnteredException();  
         } else if(cache.containsKey(numero)){
-            System.out.println("encontrou em contanisKey\n");
+            //System.out.println("encontrou em contanisKey\n");
             return cache.read(numero);
         }else{
             for(int i=cache.getSize()+1; i<=numero;i++){
-                System.out.printf("adicionando sf(%d) ao txt%n",i);
+                //System.out.printf("adicionando sf(%d) ao txt%n",i);
                 cache.store(i, super.getSuperFatorial(i));
             }
             return cache.read(numero);

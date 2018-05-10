@@ -5,9 +5,13 @@
  */
 package superfatorial;
 
+import business.Cronometro;
 import business.SuperFatorialCached;
 import business.SuperFatorialDiskCached;
 import exceptions.InputException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
@@ -33,13 +37,25 @@ public class Resultado extends javax.swing.JFrame {
         switch (tipoArmz){
             case "cache":
                 superFatorial = new SuperFatorialCached();
+                
+                Cronometro.inicia();
                 this.setTextoResultado(superFatorial.getFatorialCache(valor).toString());
+                tempoProcura.setText(Long.toString(Cronometro.fim())+"ms");
+                
+                Cronometro.inicia();
                 setTabelaResultadosCache(superFatorial.getCache());
+                tempoCriacao.setText(Long.toString(Cronometro.fim())+"ms");
                 break;
             case "txt":
                 superFatorialDisk = new SuperFatorialDiskCached();
+                
+                Cronometro.inicia();
                 this.setTextoResultado(superFatorialDisk.getFatorialCache(valor).toString());
+                tempoProcura.setText(Long.toString(Cronometro.fim())+"ms");
+                
+                Cronometro.inicia();
                 setTabelaResultadosDisk();
+                tempoCriacao.setText(Long.toString(Cronometro.fim())+"ms");
                 break;
         }
     }
@@ -61,10 +77,16 @@ public class Resultado extends javax.swing.JFrame {
     }
     
     private void setTabelaResultadosDisk(){
-//        DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
-//        for(int i=1; i<=superFatorialDisk.getCache().getSize(); i++){            
-//            model.addRow(new Object[]{i, superFatorialDisk.getCache().read(i)});
-//        }
+        DefaultTableModel model = (DefaultTableModel) tabelaResultados.getModel();
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(superFatorialDisk.getCache().getFileName()));
+            for(int i=1; i<=superFatorialDisk.getCache().getSize(); i++){
+                model.addRow(new Object[]{Integer.toString(i), superFatorialDisk.getCache().read(i)});
+            }
+        } catch (IOException e) {
+            
+        }
     }
 
     /**
@@ -83,8 +105,13 @@ public class Resultado extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         textoResultado = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        labelCriacaoTitulo = new javax.swing.JLabel();
+        tempoCriacao = new javax.swing.JLabel();
+        labelTituloProcura = new javax.swing.JLabel();
+        tempoProcura = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Resultado - Super Fatorial");
 
         botaoVoltar.setText("Voltar");
         botaoVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +163,14 @@ public class Resultado extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Todos os Resultados");
 
+        labelCriacaoTitulo.setText("Tempo de criação da tabela:");
+
+        tempoCriacao.setText("tempoCriacao");
+
+        labelTituloProcura.setText("Tempo de procura/cálculo:");
+
+        tempoProcura.setText("tempoProcura");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -143,12 +178,25 @@ public class Resultado extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                    .addComponent(labelTitulo)
-                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(labelTitulo)
                     .addComponent(botaoVoltar))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(labelCriacaoTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tempoCriacao))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelTituloProcura)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tempoProcura)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,14 +204,21 @@ public class Resultado extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(labelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelTituloProcura)
+                    .addComponent(tempoProcura))
+                .addGap(13, 13, 13)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botaoVoltar)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelCriacaoTitulo)
+                    .addComponent(tempoCriacao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botaoVoltar))
         );
 
         pack();
@@ -186,8 +241,12 @@ public class Resultado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelCriacaoTitulo;
     private javax.swing.JLabel labelTitulo;
+    private javax.swing.JLabel labelTituloProcura;
     private static javax.swing.JTable tabelaResultados;
+    private javax.swing.JLabel tempoCriacao;
+    private javax.swing.JLabel tempoProcura;
     private javax.swing.JTextArea textoResultado;
     // End of variables declaration//GEN-END:variables
 }
